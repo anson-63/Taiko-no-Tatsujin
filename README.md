@@ -10,6 +10,11 @@ A Windows WPF implementation of a Taiko-style rhythm game. Built in C# with XAML
 - Configurable score multiplier and key bindings
 - Results artwork varies by score and difficulty
 
+## 👥 Collaborators
+- [@anson-63](https://github.com/anson-63)
+- [@BCHY34](https://github.com/BCHY34)
+- [@hsaufbcsuh](https://github.com/hsaufbcsuh)
+
 ## Demo (Overview)
 
 - Storyboard + DoubleAnimation for fades and moving backgrounds
