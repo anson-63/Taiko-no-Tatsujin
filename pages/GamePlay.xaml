@@ -1,0 +1,119 @@
+﻿<Page 
+    x:Class="Taiko.pages.GamePlay" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:Taiko.pages" 
+    mc:Ignorable="d" 
+    Title="GamePlay" 
+    d:DesignHeight="720" d:DesignWidth="1280">
+
+    <Page.Resources>
+        <Storyboard x:Key="BgScroll">
+            <DoubleAnimation Storyboard.TargetName="BgRectLayer" 
+                             Storyboard.TargetProperty="(Rectangle.Fill).(ImageBrush.RelativeTransform).(TranslateTransform.X)"
+                             From="0" To="-1" Duration="0:0:24" RepeatBehavior="Forever"/>
+            <DoubleAnimation Storyboard.TargetName="BgRectFront" 
+                             Storyboard.TargetProperty="(Rectangle.Fill).(ImageBrush.RelativeTransform).(TranslateTransform.X)"
+                             From="0" To="-1" Duration="0:0:16" RepeatBehavior="Forever"/>
+        </Storyboard>
+        <local:BooleanToScaleConverter x:Key="BoolToScaleConverter" Half="0.5" Full="1.0"/>
+    </Page.Resources>
+
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="240"/>
+            <RowDefinition Height="240"/>
+            <RowDefinition Height="240"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Rectangle x:Name="BgRectLayer">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="pack://application:,,,/asset/top_bg_layer.png" TileMode="Tile" Viewport="0,0,0.3825,1" Stretch="None">
+                        <ImageBrush.RelativeTransform>
+                            <TranslateTransform/>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="BgRectFront" Panel.ZIndex="1">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="pack://application:,,,/asset/top_bg_front.png" TileMode="Tile" Viewport="0,0,0.06,1" Stretch="None">
+                        <ImageBrush.RelativeTransform>
+                            <TranslateTransform/>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#222222" x:Name="GamePlayRow" Height="240">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="P1" Grid.Row="0" Grid.RowSpan="2">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="{Binding Source={x:Static local:Controlpage.isMultiplayer}, Converter={StaticResource BoolToScaleConverter}}" ScaleY="{Binding Source={x:Static local:Controlpage.isMultiplayer}, Converter={StaticResource BoolToScaleConverter}}"/>
+                </Grid.LayoutTransform>
+                <Canvas x:Name="NoteCanvas" ClipToBounds="True">
+                    <Grid Canvas.Left="150" Canvas.Top="70" Width="100" Height="100" Panel.ZIndex="1">
+                        <Ellipse Stroke="#444444" StrokeThickness="10" Opacity="0.7"/>
+                        <Ellipse Stroke="White" StrokeThickness="4" Margin="2"/>
+                        <Ellipse Stroke="Gray" StrokeThickness="1" Margin="20" Opacity="0.4"/>
+                    </Grid>
+
+                    <TextBlock x:Name="ComboCountText" Canvas.Left="60" Canvas.Top="10" 
+                        Text="0" FontSize="56" Foreground="Yellow" FontWeight="Bold" 
+                        Visibility="Collapsed" Panel.ZIndex="10" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform x:Name="ComboScale"/>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="6" Color="Black" ShadowDepth="0"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Canvas>
+
+                <Image Source="pack://application:,,,/asset/drum.png" Height="138" Width="120" HorizontalAlignment="Left" Panel.ZIndex="6"/>
+                <Image Source="pack://application:,,,/asset/red_left.png" x:Name="red_left" Height="70" Width="40" HorizontalAlignment="Left" Margin="17,65,0,105" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/red_right.png" x:Name="red_right" Height="70" Width="40" HorizontalAlignment="Left" Margin="57,65,0,105" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/blue_left.png" x:Name="blue_left" Height="107" Width="100" HorizontalAlignment="Left" Margin="2,51,0,82" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/blue_right.png" x:Name="blue_right" Height="101" Width="100" HorizontalAlignment="Left" Margin="57,55,0,82" Visibility="Hidden" Panel.ZIndex="7"/>
+            </Grid>
+            <Grid x:Name="P2" Grid.Row="1" Visibility="Collapsed">
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="{Binding Source={x:Static local:Controlpage.isMultiplayer}, Converter={StaticResource BoolToScaleConverter}}" ScaleY="{Binding Source={x:Static local:Controlpage.isMultiplayer}, Converter={StaticResource BoolToScaleConverter}}"/>
+                </Grid.LayoutTransform>
+                <Canvas x:Name="NoteCanvasP2" ClipToBounds="True">
+                    <Grid Canvas.Left="150" Canvas.Top="70" Width="100" Height="100" Panel.ZIndex="1">
+                        <Ellipse Stroke="#444444" StrokeThickness="10" Opacity="0.7"/>
+                        <Ellipse Stroke="White" StrokeThickness="4" Margin="2"/>
+                        <Ellipse Stroke="Gray" StrokeThickness="1" Margin="20" Opacity="0.4"/>
+                    </Grid>
+
+                    <TextBlock x:Name="ComboCountTextP2" Canvas.Left="60" Canvas.Top="10" 
+                        Text="0" FontSize="56" Foreground="Yellow" FontWeight="Bold" 
+                        Visibility="Collapsed" Panel.ZIndex="10" RenderTransformOrigin="0.5,0.5">
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform x:Name="ComboScaleP2"/>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="6" Color="Black" ShadowDepth="0"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Canvas>
+
+                <Image Source="pack://application:,,,/asset/drum.png" Height="138" Width="120" HorizontalAlignment="Left" Panel.ZIndex="6"/>
+                <Image Source="pack://application:,,,/asset/red_left.png" x:Name="red_leftP2" Height="70" Width="40" HorizontalAlignment="Left" Margin="17,65,0,105" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/red_right.png" x:Name="red_rightP2" Height="70" Width="40" HorizontalAlignment="Left" Margin="57,65,0,105" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/blue_left.png" x:Name="blue_leftP2" Height="107" Width="100" HorizontalAlignment="Left" Margin="2,51,0,82" Visibility="Hidden" Panel.ZIndex="7"/>
+                <Image Source="pack://application:,,,/asset/blue_right.png" x:Name="blue_rightP2" Height="101" Width="100" HorizontalAlignment="Left" Margin="57,55,0,82" Visibility="Hidden" Panel.ZIndex="7"/>
+            </Grid>
+        </Grid>
+
+        <Image Grid.Row="2" Source="pack://application:,,,/asset/lower_bg_resized.png" Stretch="Fill" VerticalAlignment="Top" MaxHeight="240" />
+    </Grid>
+</Page>

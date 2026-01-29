@@ -1,0 +1,265 @@
+﻿<Page x:Class="Taiko.pages.Song_selection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Taiko.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="Song_selection"
+      ClipToBounds="False"
+      SnapsToDevicePixels="True">
+
+    <Page.Resources>
+        <!-- Animate the brush RelativeTransform.X from 0 → -1 (one full relative shift) over 16s, repeat forever -->
+        <Storyboard x:Key="BgScroll">
+            <DoubleAnimation
+                Storyboard.TargetName="BgRect"
+                Storyboard.TargetProperty="(Rectangle.Fill).(ImageBrush.RelativeTransform).(TranslateTransform.X)"
+                From="0"
+                To="-1"
+                Duration="0:0:16"
+                RepeatBehavior="Forever"
+                />
+        </Storyboard>
+
+        <!-- Button chrome style (content presented inside) -->
+        <Style x:Key="SongButton" TargetType="ToggleButton">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="SongButton"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="0"
+                                ClipToBounds="False">
+                            <Grid ClipToBounds="False">
+                                <Image x:Name="ButtonImage" Source="pack://application:,,,/asset/button_resized.png" Stretch="Fill" Panel.ZIndex="0"/>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"
+                                      Panel.ZIndex="1"
+                                      />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Width" Value="564"/>
+                                <Setter Property="Height" Value="473"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Outer border style reacts to the button IsMouseOver via DataTrigger -->
+        <Style x:Key="OuterBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="10"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsMouseOver, ElementName=SongButton}" Value="True">
+                    <Setter Property="BorderBrush" Value="#FFF923"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="Transparent" Margin="0" x:Name="RootGrid" ClipToBounds="False">
+        <!-- Use a Rectangle so we can animate the brush transform; ensure it stretches to fill the page -->
+        <Rectangle x:Name="BgRect"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Stretch="UniformToFill">
+            <Rectangle.Fill>
+                <!-- Tile the image so scrolling reveals the next tile instead of the window background -->
+                <ImageBrush ImageSource="pack://application:,,,/asset/song_selection_orange.png"
+                            Stretch="Fill"
+                            AlignmentX="Left" AlignmentY="Top"
+                            TileMode="Tile"
+                            ViewportUnits="RelativeToBoundingBox"
+                            Viewport="0,0,1,1">
+                    <!-- RelativeTransform moves the brush in relative coordinates (0..1) -->
+                    <ImageBrush.RelativeTransform>
+                        <TranslateTransform X="0" Y="0" />
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <!-- Action text with stroke-like outline and animation -->
+        <!--
+        Source - https://stackoverflow.com/a
+        Posted by Kent Boogaart, modified by community. See post 'Timeline' for change history
+        Retrieved 2025-12-19, License - CC BY-SA 3.0
+        -->
+        <!-- Overlayed borders (not nested) so they don't push/resize the button -->
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="False" x:Name="Select_song" Visibility="Visible">
+            <!-- Outer border: color switches on SongButton.IsMouseOver via DataTrigger.
+         Default thickness 5; on hover increase thickness to 15 and shift margin -10 so the new stroke extends outward. -->
+            <Border x:Name="OuterBorder"
+            
+            Background="Transparent"
+            CornerRadius="0">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="5,5,5,5"/>
+                        <Setter Property="Margin" Value="-5"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SongButton}" Value="True">
+                                <Setter Property="BorderBrush" Value="#FFF923"/>
+                                <!-- increase thickness and shift margin outward by the thickness delta (15 - 5 = 10) -->
+                                <!-- <Setter Property="BorderThickness" Value="15"/> -->
+
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+            <!-- Button sits above the decorative borders -->
+            <ToggleButton
+                x:Name="SongButton"
+                Style="{StaticResource SongButton}"
+                Width="60" Height="376"
+                FontSize="30"
+                FontWeight="Bold"
+                VerticalAlignment="Top" HorizontalAlignment="Center"
+                Click="expand" ClickMode="Press">
+            </ToggleButton>
+
+            
+        </Grid>
+        <Grid x:Name="DiffGrid" ClipToBounds="False" Visibility="Collapsed">
+            <Grid.Resources>
+                <!-- Style for the orange rounded border -->
+                <Style TargetType="Border" x:Key="DiffBor">
+                    <Setter Property="CornerRadius" Value="18"/>
+                    <Setter Property="BorderThickness" Value="5"/>
+                    <Setter Property="BorderBrush" Value="#FF9F18"/>
+                    <Setter Property="Background" Value="#FF9F18"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="ClipToBounds" Value="False"/>
+                    <Setter Property="Height" Value="300"/>
+                    <Setter Property="Width" Value="40"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#F3F2CC"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <!-- Transparent button style (no default WPF hover/background) -->
+                <Style TargetType="Button" x:Key="DiffBut">
+                    <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="ClipToBounds" Value="False"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="ClickMode" Value="Press"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="TextBlock" x:Key="Diff">
+                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="FontSize" Value="30"/>
+                </Style>
+            </Grid.Resources>
+
+            <Image Source="pack://application:,,,/asset/diff_panel_resized.png" MaxHeight="450"/>
+
+            <!-- Easy -->
+            <Border Margin="371,210,664,170" Style="{StaticResource DiffBor}">
+                <Button Style="{StaticResource DiffBut}" x:Name="EzBut" Click="DifficultyButton_Click">
+                    <TextBlock Style="{StaticResource Diff}">
+                        <StackPanel ClipToBounds="False">
+                            <TextBlock Text="E" FontSize="28" Margin="0,-2,0,0"/>
+                            <TextBlock Text="a" FontSize="28" Margin="0,-20,0,0"/>
+                            <TextBlock Text="s" FontSize="28" Margin="0,-20,0,0"/>
+                            <TextBlock Text="y" FontSize="28" Margin="0,-20,0,0"/>
+                            <Image Source="pack://application:,,,/asset/2star.png" MaxHeight="160" Margin="0,25,0,0" Stretch="Uniform"/>
+                        </StackPanel>
+                    </TextBlock>
+                </Button>
+            </Border>
+            <Image Source="pack://application:,,,/asset/ez.png" MaxHeight="40" Margin="-146,-137,146,137"/>
+            <!-- Normal -->
+            <Border Margin="432,210,603,170" Style="{StaticResource DiffBor}">
+                <Button Style="{StaticResource DiffBut}" x:Name="NmBut" Click="DifficultyButton_Click">
+                    <TextBlock Style="{StaticResource Diff}" FontSize="20">
+                        <StackPanel ClipToBounds="False">
+                            <TextBlock Text="N" FontSize="25" Margin="0,0,0,0"/>
+                            <TextBlock Text="o" FontSize="25" Margin="0,-18,0,0"/>
+                            <TextBlock Text="r" FontSize="25" Margin="0,-18,0,0"/>
+                            <TextBlock Text="m" FontSize="25" Margin="0,-18,0,0"/>
+                            <TextBlock Text="a" FontSize="25" Margin="0,-18,0,0"/>
+                            <TextBlock Text="l" FontSize="25" Margin="0,-10,0,0"/>
+                            <Image Source="pack://application:,,,/asset/3star.png" MaxHeight="160" Margin="0,-3,0,0" Stretch="Uniform"/>
+                        </StackPanel>
+                    </TextBlock>
+                </Button>
+            </Border>
+            <Image Source="pack://application:,,,/asset/normal.png" MaxHeight="40" Margin="-86,-137,86,137"/>
+            <!-- Hard -->
+            <Border Margin="495,210,540,170" Style="{StaticResource DiffBor}">
+                <Button Style="{StaticResource DiffBut}" x:Name="HdBut" Click="DifficultyButton_Click">
+                    <TextBlock Style="{StaticResource Diff}">
+                        <StackPanel ClipToBounds="False">
+                            <TextBlock Text="H" FontSize="28" Margin="0,-2,0,0"/>
+                            <TextBlock Text="a" FontSize="28" Margin="0,-20,0,0"/>
+                            <TextBlock Text="r" FontSize="28" Margin="0,-20,0,0"/>
+                            <TextBlock Text="d" FontSize="28" Margin="0,-15,0,0"/>
+                            <Image Source="pack://application:,,,/asset/3star.png" MaxHeight="160" Margin="0,20,0,0" Stretch="Uniform"/>
+                        </StackPanel>
+                    </TextBlock>
+                </Button>
+            </Border>
+            <Image Source="pack://application:,,,/asset/hard.png" MaxHeight="40" Margin="-22,-137,22,137"/>
+            <!-- Extreme -->
+            <Border Margin="558,210,482,170" Style="{StaticResource DiffBor}">
+                <Button Style="{StaticResource DiffBut}" x:Name="ExBut" Click="DifficultyButton_Click">
+                      <TextBlock Style="{StaticResource Diff}">
+                          <StackPanel ClipToBounds="False">
+                              <TextBlock Text="E" FontSize="22" Margin="0,2,0,0"/>
+                              <TextBlock Text="x" FontSize="22" Margin="0,-15,0,0"/>
+                              <TextBlock Text="t" FontSize="22" Margin="0,-15,0,0"/>
+                              <TextBlock Text="r" FontSize="22" Margin="0,-15,0,0"/>
+                              <TextBlock Text="e" FontSize="22" Margin="0,-15,0,0"/>
+                              <TextBlock Text="m" FontSize="22" Margin="0,-15,0,0"/>
+                              <TextBlock Text="e" FontSize="22" Margin="0,-15,0,0"/>
+                              <Image Source="pack://application:,,,/asset/5star.png" MaxHeight="160" Margin="0,0,0,0" Stretch="Uniform"/>
+                          </StackPanel>
+                      </TextBlock>
+                  </Button>
+              </Border>
+              <Image Source="pack://application:,,,/asset/ex.png" MaxHeight="40" Margin="38,-137,-38,137"/>
+        </Grid>
+        <Image 
+            x:Name="Selection" 
+            Source="pack://application:,,,/asset/select_song.png" 
+            HorizontalAlignment="Left" VerticalAlignment="Top" 
+            Margin="110,50,0,0" 
+            Stretch="Uniform" 
+            MaxWidth="430" 
+            Panel.ZIndex="100"/>
+    </Grid>
+</Page>

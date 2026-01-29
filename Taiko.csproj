@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <None Remove="asset\icon.ico" />
+	  <None Remove="asset\title_screen.png" />
+	  <None Remove="asset\settings.png" />
+	  <None Remove="asset\logo.png" />
+	  <None Remove="asset\song_selection.png" />
+	  <None Remove="asset\song_selection_orange.png" />
+	  <None Remove="asset\top_bg.png" />
+	  <None Remove="asset\top_bg_layer.png" />
+	  <None Remove="asset\top_bg_front.png" />
+	  <None Remove="asset\lower_bg_resized.png" />
+	  <None Remove="asset\button.png" />
+	  <None Remove="asset\button_resized.png" />
+	  <None Remove="asset\song_panel.png" />
+	  <None Remove="asset\song_panel_resized.png" />
+	  <None Remove="asset\select_song.png" />
+	  <None Remove="asset\select_diff.png" />
+	  <None Remove="asset\diff_panel_resized.png" />
+	  <None Remove="asset\2star.png" />
+	  <None Remove="asset\3star.png" />
+	  <None Remove="asset\5star.png" />
+	  <None Remove="asset\ez.png"/>
+	  <None Remove="asset\normal.png"/>
+	  <None Remove="asset\hard.png"/>
+	  <None Remove="asset\ex.png"/>
+	  <None Remove="asset\result.png"/>
+	  <None Remove="asset\man_win.png"/>
+	  <None Remove="asset\man_lose.png"/>
+	  <None Remove="asset\girl_win.png"/>
+	  <None Remove="asset\girl_lose.png"/>
+	  <None Remove="asset\drum.png"/>
+	  <None Remove="asset\blue_left.png"/>
+	  <None Remove="asset\blue_right.png"/>
+	  <None Remove="asset\red_left.png"/>
+	  <None Remove="asset\red_right.png"/>
+	  <None Remove="asset\ka_left.png"/>
+	  <None Remove="asset\ka_right.png"/>
+	  <None Remove="asset\don_left.png"/>
+	  <None Remove="asset\don_right.png"/>
+	  <None Remove="asset\red_cap.png"/>
+	  <None Remove="asset\blue_cap.png"/>
+	  <None Remove="asset\group.png"/>
+	  <None Remove="asset\ez_result.png"/>
+	  <None Remove="asset\nm_result.png"/>
+	  <None Remove="asset\hd_result.png"/>
+	  <None Remove="asset\ex_result.png"/>
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Resource Include="asset\icon.ico" />
+	  <Resource Include="asset\title_screen.png" />
+	  <Resource Include="asset\settings.png" />
+	  <Resource Include="asset\logo.png" />
+	  <Resource Include="asset\song_selection.png" />
+	  <Resource Include="asset\song_selection_orange.png" />
+	  <Resource Include="asset\top_bg.png" />
+	  <Resource Include="asset\top_bg_layer.png" />
+	  <Resource Include="asset\top_bg_front.png" />
+	  <Resource Include="asset\lower_bg_resized.png" />
+	  <Resource Include="asset\button.png" />
+	  <Resource Include="asset\button_resized.png" />
+	  <Resource Include="asset\song_panel.png" />
+	  <Resource Include="asset\song_panel_resized.png" />
+	  <Resource Include="asset\select_song.png" />
+	  <Resource Include="asset\select_diff.png" />
+	  <Resource Include="asset\diff_panel_resized.png" />
+	  <Resource Include="asset\2star.png" />
+	  <Resource Include="asset\3star.png" />
+	  <Resource Include="asset\5star.png" />
+	  <Resource Include="asset\ez.png"/>
+	  <Resource Include="asset\normal.png"/>
+	  <Resource Include="asset\hard.png"/>
+	  <Resource Include="asset\ex.png"/>
+	  <Resource Include="asset\result.png"/>
+	  <Resource Include="asset\man_win.png"/>
+	  <Resource Include="asset\man_lose.png"/>
+	  <Resource Include="asset\girl_win.png"/>
+	  <Resource Include="asset\girl_lose.png"/>
+	  <Resource Include="asset\drum.png"/>
+	  <Resource Include="asset\blue_left.png"/>
+	  <Resource Include="asset\blue_right.png"/>
+	  <Resource Include="asset\red_left.png"/>
+	  <Resource Include="asset\red_right.png"/>
+	  <Resource Include="asset\ka_left.png"/>
+	  <Resource Include="asset\ka_right.png"/>
+	  <Resource Include="asset\don_left.png"/>
+	  <Resource Include="asset\don_right.png"/>
+	  <Resource Include="asset\red_cap.png"/>
+	  <Resource Include="asset\blue_cap.png"/>
+	  <Resource Include="asset\group.png"/>
+	  <Resource Include="asset\ez_result.png"/>
+	  <Resource Include="asset\nm_result.png"/>
+	  <Resource Include="asset\hd_result.png"/>
+	  <Resource Include="asset\ex_result.png"/>
+  </ItemGroup>
+
+</Project>
